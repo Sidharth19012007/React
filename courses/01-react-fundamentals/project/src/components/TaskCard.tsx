@@ -10,7 +10,7 @@ interface TaskCardProps {
 export default function TaskCard({
   title,
   description,
-  priority
+  priority,
 }: TaskCardProps) {
   return (
     <article id="task-card">
