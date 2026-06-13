@@ -50,10 +50,11 @@ export default function TaskList(props: TaskListProps) {
 
   return (
     <>
-      {props.countText && (
+      {countText && (
         <div id="task-count">
-          {props.countText}
+        {countText}
         </div>
+
       )}
 
       <section id="task-list">
@@ -63,6 +64,9 @@ export default function TaskList(props: TaskListProps) {
             title={task.title}
             description={task.description}
             priority={task.priority}
+            completed={task.completed}
+            onToggle={props.onToggle}
+            taskId={task.id}
           />
         ))}
       </section>
