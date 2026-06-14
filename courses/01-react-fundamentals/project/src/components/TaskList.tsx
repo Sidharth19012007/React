@@ -1,4 +1,4 @@
-import TaskCard from './TaskCard'
+import TaskCard from "./TaskCard"
 
 export interface Task {
   id: string | number
@@ -22,23 +22,23 @@ interface TaskListProps {
 const HARDCODED_TASKS: Task[] = [
   {
     id: 1,
-    title: 'Task One',
-    description: 'First hardcoded task',
-    priority: 'High',
+    title: "Task One",
+    description: "First hardcoded task",
+    priority: "High",
     completed: false,
   },
   {
     id: 2,
-    title: 'Task Two',
-    description: 'Second hardcoded task',
-    priority: 'Medium',
+    title: "Task Two",
+    description: "Second hardcoded task",
+    priority: "Medium",
     completed: false,
   },
   {
     id: 3,
-    title: 'Task Three',
-    description: 'Third hardcoded task',
-    priority: 'Low',
+    title: "Task Three",
+    description: "Third hardcoded task",
+    priority: "Low",
     completed: false,
   },
 ]
@@ -47,15 +47,9 @@ export default function TaskList(props: TaskListProps) {
   const taskList = props.tasks ?? HARDCODED_TASKS
   const countText = props.countText
 
-
   return (
     <>
-      {countText && (
-        <div id="task-count">
-        {countText}
-        </div>
-
-      )}
+      {countText && <div id="task-count">{countText}</div>}
 
       <section id="task-list">
         {taskList.map((task) => (
@@ -66,7 +60,8 @@ export default function TaskList(props: TaskListProps) {
             priority={task.priority}
             completed={task.completed}
             onToggle={props.onToggle}
-            taskId={task.id}
+            onDelete={props.onDelete}
+            id={task.id}
           />
         ))}
       </section>
