@@ -35,7 +35,7 @@ function AppContent() {
             <Route path="/challenge/03-adding-new-tasks" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" />} />
             <Route path="/challenge/04-task-completion-toggle" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="completed" />} />
             <Route path="/challenge/05-task-deletion" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" onDelete={handleDelete} />} />
-            <Route path="/challenge/06-task-filtering" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" showFilterBar />} />
+            <Route path="/challenge/06-task-filtering" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" showFilterBar onDelete={handleDelete}/>} />
             <Route path="/challenge/07-priority-based-sorting" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" showFilterBar />} />
             <Route path="/challenge/08-task-editing" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" />} />
             <Route path="/challenge/09-search-functionality" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" showFilterBar />} />
