@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
 import FilterBar from "./FilterBar";
@@ -31,9 +31,30 @@ export default function TaskApp({
   const [searchText, setSearchText] =
     useState("");
 
+  const [
+    debouncedSearchText,
+    setDebouncedSearchText,
+  ] = useState("");
+
+  const [isSearching, setIsSearching] =
+    useState(false);
+
   const [editingId, setEditingId] = useState<
     string | number | null
   >(null);
+
+  useEffect(() => {
+    setIsSearching(true);
+
+    const timer = setTimeout(() => {
+      setDebouncedSearchText(searchText);
+      setIsSearching(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchText]);
 
   function handleAddTask(task: Task) {
     if (setTasks) {
@@ -97,21 +118,20 @@ export default function TaskApp({
         task.title
           .toLowerCase()
           .includes(
-            searchText.toLowerCase()
+            debouncedSearchText.toLowerCase()
           ) ||
         task.description
           .toLowerCase()
           .includes(
-            searchText.toLowerCase()
+            debouncedSearchText.toLowerCase()
           )
     );
 
-  const priorityValue: Record<string, number> =
-    {
-      High: 3,
-      Medium: 2,
-      Low: 1,
-    };
+  const priorityValue: Record<string, number> = {
+    High: 3,
+    Medium: 2,
+    Low: 1,
+  };
 
   const sortedTasks = [
     ...searchFilteredTasks,
@@ -155,11 +175,20 @@ export default function TaskApp({
           onSortChange={setSortOrder}
           searchText={searchText}
           onSearchChange={setSearchText}
-          onClearSearch={() =>
-            setSearchText("")
-          }
+          onClearSearch={() => {
+            setSearchText("");
+            setDebouncedSearchText("");
+          }}
         />
       )}
+
+      {isSearching &&
+        searchText !==
+          debouncedSearchText && (
+          <div id="searching-indicator">
+            Searching...
+          </div>
+        )}
 
       <div id="task-count">
         Showing {sortedTasks.length} of{" "}

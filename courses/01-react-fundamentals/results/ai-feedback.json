@@ -228,5 +228,28 @@
       "maintainability": 90,
       "overall": "The code is well-structured and effectively uses `useEffect` to handle side effects. However, there are some areas for improvement, such as handling task deletion and adding additional comments for clarity."
     }
+  },
+  {
+    "challengeId": "11-useeffect-debounced-search",
+    "challengeName": "useEffect - Debounced Search",
+    "aiReview": {
+      "challengeId": "11-useeffect-debounced-search",
+      "timestamp": "2026-06-16T06:45:38.783Z",
+      "score": 88,
+      "feedback": [],
+      "strengths": [
+        "The code is well-organized and follows a consistent structure.",
+        "The use of TypeScript and functional components is a good practice.",
+        "The code is well-documented with clear and concise comments."
+      ],
+      "improvements": [
+        "The `useEffect` hook in `TaskApp` has a lot of dependencies. Consider breaking it down into smaller, more focused effects.",
+        "The `debouncedSearchText` state is not being used consistently throughout the component. Consider removing it and using the `searchText` state directly.",
+        "The `isSearching` state is not being updated correctly. Consider using a more robust approach to handle the debouncing logic."
+      ],
+      "readability": 85,
+      "maintainability": 90,
+      "overall": "The code is well-structured and follows good practices. However, there are some areas that need improvement, such as the `useEffect` hook and the debouncing logic. With some refactoring, this code can be even more maintainable and efficient."
+    }
   }
 ]
