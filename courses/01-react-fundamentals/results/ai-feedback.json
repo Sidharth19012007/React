@@ -136,5 +136,28 @@
       "maintainability": 90,
       "overall": "The code is well-structured and maintainable, with a good balance between readability and performance. However, there are some areas for improvement, particularly in the `FilterBar` and `TaskApp` components. With some refactoring and attention to detail, this code can be even more robust and efficient."
     }
+  },
+  {
+    "challengeId": "07-priority-based-sorting",
+    "challengeName": "Priority-Based Sorting",
+    "aiReview": {
+      "challengeId": "07-priority-based-sorting",
+      "timestamp": "2026-06-15T09:29:28.608Z",
+      "score": 88,
+      "feedback": [],
+      "strengths": [
+        "The code is well-structured and easy to follow, with clear separation of concerns between components.",
+        "The use of TypeScript and functional components is a good practice.",
+        "The code is well-commented and easy to understand."
+      ],
+      "improvements": [
+        "In the `TaskApp` component, the `sortedTasks` array is created by sorting the `filteredTasks` array. However, this can be optimized by using a single array and sorting it directly. This will reduce the memory usage and improve performance.",
+        "In the `FilterBar` component, the `onSortChange` prop is not being used. This prop should be removed or used to update the state accordingly.",
+        "In the `TaskApp` component, the `onDelete` prop is being used to handle task deletion. However, this prop is not being used in the `TaskList` component. This prop should be removed or used to handle task deletion accordingly."
+      ],
+      "readability": 85,
+      "maintainability": 90,
+      "overall": "The code is well-structured and easy to follow, with good use of TypeScript and functional components. However, there are some areas for improvement, such as optimizing the sorting of tasks and removing unused props. Overall, the code is well-maintained and easy to understand."
+    }
   }
 ]
