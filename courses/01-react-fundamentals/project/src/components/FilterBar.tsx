@@ -3,11 +3,23 @@ type Filter = "all" | "active" | "completed";
 interface FilterBarProps {
   filter: Filter;
   onFilterChange: (filter: Filter) => void;
+
+  sortOrder: string;
+  onSortChange: (value: string) => void;
+
+  searchText: string;
+  onSearchChange: (value: string) => void;
+  onClearSearch: () => void;
 }
 
 export default function FilterBar({
   filter,
   onFilterChange,
+  sortOrder,
+  onSortChange,
+  searchText,
+  onSearchChange,
+  onClearSearch,
 }: FilterBarProps) {
   return (
     <div id="filter-bar">
@@ -31,6 +43,49 @@ export default function FilterBar({
       >
         Completed
       </button>
+
+      <select
+        id="sort-order"
+        value={sortOrder}
+        onChange={(e) =>
+          onSortChange(e.target.value)
+        }
+      >
+        <option value="recent">
+          Recently Added
+        </option>
+
+        <option value="high">
+          Priority: High to Low
+        </option>
+
+        <option value="low">
+          Priority: Low to High
+        </option>
+
+        <option value="alphabetical">
+          Alphabetical
+        </option>
+      </select>
+
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Search tasks..."
+        value={searchText}
+        onChange={(e) =>
+          onSearchChange(e.target.value)
+        }
+      />
+
+      {searchText && (
+        <button
+          id="clear-search"
+          onClick={onClearSearch}
+        >
+          Clear search
+        </button>
+      )}
     </div>
   );
 }
