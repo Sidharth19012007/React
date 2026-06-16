@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ChallengeList from './components/ChallengeList'
 import TaskList from './components/TaskList'
@@ -20,6 +20,31 @@ const INITIAL_TASKS: Task[] = [
 function AppContent() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS)
 
+useEffect(() => {
+  try {
+    const savedTasks = localStorage.getItem(
+      "task-app-tasks"
+    )
+
+    if (savedTasks) {
+      const parsedTasks = JSON.parse(
+        savedTasks
+      ) as Task[]
+
+      setTasks(parsedTasks)
+    }
+  } catch {
+    setTasks(INITIAL_TASKS)
+  }
+}, [])
+
+useEffect(() => {
+  localStorage.setItem(
+    "task-app-tasks",
+    JSON.stringify(tasks)
+  )
+}, [tasks])
+
   const handleDelete = (id: string | number) => {
      setTasks((prev) => prev.filter((t) => t.id !== id))
   }
@@ -39,7 +64,7 @@ function AppContent() {
             <Route path="/challenge/07-priority-based-sorting" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" showFilterBar onDelete={handleDelete} />} />
             <Route path="/challenge/08-task-editing" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks"  onDelete={handleDelete} />} />
             <Route path="/challenge/09-search-functionality" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" showFilterBar onDelete={handleDelete} />} />
-            <Route path="/challenge/10-useeffect-local-storage" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" />} />
+            <Route path="/challenge/10-useeffect-local-storage" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" onDelete={handleDelete} />} />
             <Route path="/challenge/11-useeffect-debounced-search" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" showFilterBar />} />
             <Route path="/challenge/12-categories-and-tags" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" showFilterBar />} />
             <Route path="/challenge/13-due-dates-and-sorting" element={<TaskApp tasks={tasks} setTasks={setTasks} showForm countFormat="tasks" showFilterBar />} />

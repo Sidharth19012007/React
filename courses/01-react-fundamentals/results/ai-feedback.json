@@ -205,5 +205,28 @@
       "maintainability": 90,
       "overall": "The code is well-structured and maintainable, with a good balance of functionality and readability. However, there are some areas for improvement to make the code even more efficient and easier to understand."
     }
+  },
+  {
+    "challengeId": "10-useeffect-local-storage",
+    "challengeName": "useEffect - Local Storage Persistence",
+    "aiReview": {
+      "challengeId": "10-useeffect-local-storage",
+      "timestamp": "2026-06-16T06:34:24.925Z",
+      "score": 88,
+      "feedback": [],
+      "strengths": [
+        "Effective use of `useEffect` for handling side effects, such as saving and loading tasks from local storage.",
+        "Clear and concise code structure, with separate effects for saving and loading tasks.",
+        "Proper error handling when parsing tasks from local storage."
+      ],
+      "improvements": [
+        "Consider using a more robust way to handle task deletion, such as using the `useCallback` hook to memoize the `handleDelete` function.",
+        "The `useEffect` hook for saving tasks could be improved by adding a dependency on the `tasks` array, to ensure that the effect is re-run when the tasks change.",
+        "The code could benefit from additional comments or documentation to explain the purpose and behavior of the `useEffect` hooks and the task deletion logic."
+      ],
+      "readability": 85,
+      "maintainability": 90,
+      "overall": "The code is well-structured and effectively uses `useEffect` to handle side effects. However, there are some areas for improvement, such as handling task deletion and adding additional comments for clarity."
+    }
   }
 ]
