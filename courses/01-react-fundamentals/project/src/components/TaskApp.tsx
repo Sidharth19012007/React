@@ -26,6 +26,10 @@ export default function TaskApp({
   const [sortOrder, setSortOrder] =
     useState("recent");
 
+  const [editingId, setEditingId] = useState<
+    string | number | null
+  >(null);
+
   function handleAddTask(task: Task) {
     if (setTasks) {
       setTasks((prev) => [...prev, task]);
@@ -45,6 +49,34 @@ export default function TaskApp({
           : task
       )
     );
+  }
+
+  function handleUpdateTask(
+    id: string | number,
+    updates: {
+      title: string;
+      description: string;
+      priority: string;
+    }
+  ) {
+    if (!setTasks) return;
+
+    if (!updates.title.trim()) {
+      return;
+    }
+
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id
+          ? {
+              ...task,
+              ...updates,
+            }
+          : task
+      )
+    );
+
+    setEditingId(null);
   }
 
   const filteredTasks =
@@ -84,7 +116,6 @@ export default function TaskApp({
           );
       }
 
-      // Recently Added
       return 0;
     }
   );
@@ -117,6 +148,9 @@ export default function TaskApp({
           tasks={sortedTasks}
           onToggle={handleToggle}
           onDelete={onDelete}
+          onUpdateTask={handleUpdateTask}
+          editingId={editingId}
+          setEditingId={setEditingId}
         />
       )}
     </main>

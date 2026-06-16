@@ -1,22 +1,36 @@
-import TaskCard from "./TaskCard"
+import TaskCard from "./TaskCard";
 
 export interface Task {
-  id: string | number
-  title: string
-  description: string
-  priority: string
-  completed: boolean
-  category?: string
-  tags?: string[]
-  dueDate?: string | number
+  id: string | number;
+  title: string;
+  description: string;
+  priority: string;
+  completed: boolean;
+  category?: string;
+  tags?: string[];
+  dueDate?: string | number;
 }
 
 interface TaskListProps {
-  tasks?: Task[]
-  countText?: string
-  onToggle?: (id: string | number) => void
-  onDelete?: (id: string | number) => void
-  linkToTaskDetail?: boolean
+  tasks?: Task[];
+  countText?: string;
+  onToggle?: (id: string | number) => void;
+  onDelete?: (id: string | number) => void;
+  linkToTaskDetail?: boolean;
+
+  onUpdateTask?: (
+    id: string | number,
+    updates: {
+      title: string;
+      description: string;
+      priority: string;
+    }
+  ) => void;
+
+  editingId?: string | number | null;
+  setEditingId?: (
+    id: string | number | null
+  ) => void;
 }
 
 const HARDCODED_TASKS: Task[] = [
@@ -41,30 +55,42 @@ const HARDCODED_TASKS: Task[] = [
     priority: "Low",
     completed: false,
   },
-]
+];
 
-export default function TaskList(props: TaskListProps) {
-  const taskList = props.tasks ?? HARDCODED_TASKS
-  const countText = props.countText
-
+export default function TaskList({
+  tasks = HARDCODED_TASKS,
+  countText,
+  onToggle,
+  onDelete,
+  onUpdateTask,
+  editingId,
+  setEditingId,
+}: TaskListProps) {
   return (
     <>
-      {countText && <div id="task-count">{countText}</div>}
+      {countText && (
+        <div id="task-count">
+          {countText}
+        </div>
+      )}
 
       <section id="task-list">
-        {taskList.map((task) => (
+        {tasks.map((task) => (
           <TaskCard
             key={task.id}
+            id={task.id}
             title={task.title}
             description={task.description}
             priority={task.priority}
             completed={task.completed}
-            onToggle={props.onToggle}
-            onDelete={props.onDelete}
-            id={task.id}
+            onToggle={onToggle}
+            onDelete={onDelete}
+            onUpdateTask={onUpdateTask}
+            editingId={editingId}
+            setEditingId={setEditingId}
           />
         ))}
       </section>
     </>
-  )
+  );
 }
