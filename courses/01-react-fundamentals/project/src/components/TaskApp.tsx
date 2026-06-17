@@ -28,6 +28,10 @@ export default function TaskApp({
   const [sortOrder, setSortOrder] =
     useState("recent");
 
+  // Challenge 12
+  const [selectedCategory, setSelectedCategory] =
+    useState("All categories");
+
   const [searchText, setSearchText] =
     useState("");
 
@@ -42,6 +46,15 @@ export default function TaskApp({
   const [editingId, setEditingId] = useState<
     string | number | null
   >(null);
+
+  // Unique categories
+  const categories = [
+    ...new Set(
+      tasks
+        .map((task) => task.category)
+        .filter(Boolean)
+    ),
+  ];
 
   useEffect(() => {
     setIsSearching(true);
@@ -105,36 +118,56 @@ export default function TaskApp({
     setEditingId(null);
   }
 
-  const statusFilteredTasks =
+  // Status filter
+  let filteredTasks =
     filter === "all"
       ? tasks
       : filter === "active"
-      ? tasks.filter((t) => !t.completed)
-      : tasks.filter((t) => t.completed);
+      ? tasks.filter(
+          (task) => !task.completed
+        )
+      : tasks.filter(
+          (task) => task.completed
+        );
 
-  const searchFilteredTasks =
-    statusFilteredTasks.filter(
+  // Category filter
+  if (
+    selectedCategory !==
+    "All categories"
+  ) {
+    filteredTasks = filteredTasks.filter(
       (task) =>
-        task.title
-          .toLowerCase()
-          .includes(
-            debouncedSearchText.toLowerCase()
-          ) ||
-        task.description
-          .toLowerCase()
-          .includes(
-            debouncedSearchText.toLowerCase()
-          )
+        task.category === selectedCategory
     );
+  }
 
-  const priorityValue: Record<string, number> = {
+  // Search filter
+  filteredTasks = filteredTasks.filter(
+    (task) =>
+      task.title
+        .toLowerCase()
+        .includes(
+          debouncedSearchText.toLowerCase()
+        ) ||
+      task.description
+        .toLowerCase()
+        .includes(
+          debouncedSearchText.toLowerCase()
+        )
+  );
+
+  const priorityValue: Record<
+    string,
+    number
+  > = {
     High: 3,
     Medium: 2,
     Low: 1,
   };
 
+  // Sort
   const sortedTasks = [
-    ...searchFilteredTasks,
+    ...filteredTasks,
   ].sort((a, b) => {
     if (sortOrder === "high") {
       return (
@@ -179,6 +212,13 @@ export default function TaskApp({
             setSearchText("");
             setDebouncedSearchText("");
           }}
+          categories={categories}
+          selectedCategory={
+            selectedCategory
+          }
+          onCategoryChange={
+            setSelectedCategory
+          }
         />
       )}
 

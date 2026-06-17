@@ -1,18 +1,25 @@
 interface TaskCardProps {
-  id?: string | number
-  title: string
-  description: string
-  priority: string
-  completed?: boolean
-  onToggle?: (id: string | number) => void
-  onDelete?: (id: string | number) => void
+  id?: string | number;
+  title: string;
+  description: string;
+  priority: string;
+  completed?: boolean;
+
+  category?: string;
+  tags?: string[];
+
+  onToggle?: (id: string | number) => void;
+  onDelete?: (id: string | number) => void;
 }
+
 export default function TaskCard({
   id,
   title,
   description,
   priority,
   completed = false,
+  category = "General",
+  tags = [],
   onToggle,
   onDelete,
 }: TaskCardProps) {
@@ -34,7 +41,9 @@ export default function TaskCard({
 
       <h2
         style={{
-          textDecoration: completed ? "line-through" : "none",
+          textDecoration: completed
+            ? "line-through"
+            : "none",
         }}
       >
         {title}
@@ -42,7 +51,9 @@ export default function TaskCard({
 
       <p
         style={{
-          textDecoration: completed ? "line-through" : "none",
+          textDecoration: completed
+            ? "line-through"
+            : "none",
         }}
       >
         {description}
@@ -50,19 +61,43 @@ export default function TaskCard({
 
       <p>Priority: {priority}</p>
 
+      <div id="task-category">
+        Category: {category}
+      </div>
+
+      <div id="task-tags">
+        {tags.map((tag) => (
+          <span
+            key={tag}
+            data-tag={tag}
+            className="tag-badge"
+            style={{
+              display: "inline-block",
+              padding: "2px 8px",
+              marginRight: "6px",
+              borderRadius: "12px",
+              backgroundColor: "#eeeeee",
+            }}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+
       {onDelete && (
         <button
-         onClick={() => {
-           const confirmed = window.confirm("Are you sure?")
+          onClick={() => {
+            const confirmed =
+              window.confirm("Are you sure?");
 
-           if (confirmed && onDelete) {
-             onDelete(id!)
-           }
-      }}
-    > 
-     Delete
-  </button>
-)}
-</article>
-)
+            if (confirmed) {
+              onDelete(id!);
+            }
+          }}
+        >
+          Delete
+        </button>
+      )}
+    </article>
+  );
 }

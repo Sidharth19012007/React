@@ -10,6 +10,11 @@ interface FilterBarProps {
   searchText: string;
   onSearchChange: (value: string) => void;
   onClearSearch: () => void;
+
+  // Challenge 12
+  categories: string[];
+  selectedCategory: string;
+  onCategoryChange: (value: string) => void;
 }
 
 export default function FilterBar({
@@ -20,6 +25,9 @@ export default function FilterBar({
   searchText,
   onSearchChange,
   onClearSearch,
+  categories,
+  selectedCategory,
+  onCategoryChange,
 }: FilterBarProps) {
   return (
     <div id="filter-bar">
@@ -66,6 +74,28 @@ export default function FilterBar({
         <option value="alphabetical">
           Alphabetical
         </option>
+      </select>
+
+      {/* Category Filter */}
+      <select
+        id="category-filter"
+        value={selectedCategory}
+        onChange={(e) =>
+          onCategoryChange(e.target.value)
+        }
+      >
+        <option value="All categories">
+          All categories
+        </option>
+
+        {categories.map((category) => (
+          <option
+            key={category}
+            value={category}
+          >
+            {category}
+          </option>
+        ))}
       </select>
 
       <input
