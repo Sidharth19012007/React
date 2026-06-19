@@ -8,6 +8,9 @@ interface TaskCardProps {
   category?: string;
   tags?: string[];
 
+  // Challenge 13
+  dueDate?: string | number;
+
   onToggle?: (id: string | number) => void;
   onDelete?: (id: string | number) => void;
 }
@@ -20,15 +23,45 @@ export default function TaskCard({
   completed = false,
   category = "General",
   tags = [],
+  dueDate,
   onToggle,
   onDelete,
 }: TaskCardProps) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  let isOverdue = false;
+  let isDueToday = false;
+  let isDueSoon = false;
+
+  if (dueDate) {
+    const due = new Date(dueDate);
+    due.setHours(0, 0, 0, 0);
+
+    const difference =
+      (due.getTime() - today.getTime()) /
+      (1000 * 60 * 60 * 24);
+
+    isOverdue = difference < 0 && !completed;
+    isDueToday = difference === 0;
+    isDueSoon =
+      difference > 0 && difference <= 3;
+  }
+
   return (
     <article
       id="task-card"
       data-completed={completed}
+      data-overdue={isOverdue}
       style={{
-        backgroundColor: completed ? "#e5ffe5" : "white",
+        backgroundColor: completed
+          ? "#e5ffe5"
+          : "white",
+        border: isOverdue
+          ? "2px solid red"
+          : "1px solid #cccccc",
+        padding: "16px",
+        marginBottom: "12px",
       }}
     >
       {onToggle && (
@@ -84,11 +117,41 @@ export default function TaskCard({
         ))}
       </div>
 
+      {/* Challenge 13 */}
+      {dueDate && (
+        <p id="task-due-date">
+          Due:{" "}
+          {new Date(
+            dueDate
+          ).toLocaleDateString()}
+        </p>
+      )}
+
+      {isOverdue && (
+        <p style={{ color: "red" }}>
+          Overdue
+        </p>
+      )}
+
+      {isDueToday && (
+        <p style={{ color: "orange" }}>
+          Due Today
+        </p>
+      )}
+
+      {isDueSoon && !isDueToday && (
+        <p style={{ color: "green" }}>
+          Due Soon
+        </p>
+      )}
+
       {onDelete && (
         <button
           onClick={() => {
             const confirmed =
-              window.confirm("Are you sure?");
+              window.confirm(
+                "Are you sure?"
+              );
 
             if (confirmed) {
               onDelete(id!);

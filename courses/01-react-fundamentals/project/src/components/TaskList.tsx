@@ -68,9 +68,6 @@ export default function TaskList({
   countText,
   onToggle,
   onDelete,
-  onUpdateTask,
-  editingId,
-  setEditingId,
 }: TaskListProps) {
   return (
     <>
@@ -91,11 +88,9 @@ export default function TaskList({
             completed={task.completed}
             category={task.category}
             tags={task.tags}
+            dueDate={task.dueDate}
             onToggle={onToggle}
             onDelete={onDelete}
-            onUpdateTask={onUpdateTask}
-            editingId={editingId}
-            setEditingId={setEditingId}
           />
         ))}
       </section>

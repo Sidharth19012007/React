@@ -21,6 +21,10 @@ export default function TaskForm({
   const [tagsInput, setTagsInput] =
     useState("");
 
+  // Challenge 13
+  const [dueDate, setDueDate] =
+    useState("");
+
   const [error, setError] = useState("");
 
   function handleSubmit(
@@ -48,6 +52,7 @@ export default function TaskForm({
       completed: false,
       category,
       tags,
+      dueDate: dueDate || undefined,
     });
 
     setTitle("");
@@ -55,6 +60,7 @@ export default function TaskForm({
     setPriority("Low");
     setCategory("General");
     setTagsInput("");
+    setDueDate("");
   }
 
   return (
@@ -156,6 +162,22 @@ export default function TaskForm({
             setTagsInput(
               e.target.value
             )
+          }
+        />
+      </div>
+
+      {/* Challenge 13 */}
+      <div>
+        <label htmlFor="due-date">
+          Due Date
+        </label>
+
+        <input
+          id="due-date"
+          type="date"
+          value={dueDate}
+          onChange={(e) =>
+            setDueDate(e.target.value)
           }
         />
       </div>

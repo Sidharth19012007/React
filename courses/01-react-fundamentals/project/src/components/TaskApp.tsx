@@ -47,7 +47,6 @@ export default function TaskApp({
     string | number | null
   >(null);
 
-  // Unique categories
   const categories = [
     ...new Set(
       tasks
@@ -165,7 +164,7 @@ export default function TaskApp({
     Low: 1,
   };
 
-  // Sort
+  // Sorting
   const sortedTasks = [
     ...filteredTasks,
   ].sort((a, b) => {
@@ -191,6 +190,27 @@ export default function TaskApp({
         );
     }
 
+    // Challenge 13
+    if (sortOrder === "due-date") {
+      if (!a.dueDate && !b.dueDate) {
+        return 0;
+      }
+
+      if (!a.dueDate) {
+        return 1;
+      }
+
+      if (!b.dueDate) {
+        return -1;
+      }
+
+      return (
+        new Date(a.dueDate).getTime() -
+        new Date(b.dueDate).getTime()
+      );
+    }
+
+    // recent
     return 0;
   });
 

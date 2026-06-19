@@ -55,9 +55,7 @@ export default function FilterBar({
       <select
         id="sort-order"
         value={sortOrder}
-        onChange={(e) =>
-          onSortChange(e.target.value)
-        }
+        onChange={(e) => onSortChange(e.target.value)}
       >
         <option value="recent">
           Recently Added
@@ -74,15 +72,18 @@ export default function FilterBar({
         <option value="alphabetical">
           Alphabetical
         </option>
+
+        {/* Challenge 13 */}
+        <option value="due-date">
+          Due Date (Soonest First)
+        </option>
       </select>
 
       {/* Category Filter */}
       <select
         id="category-filter"
         value={selectedCategory}
-        onChange={(e) =>
-          onCategoryChange(e.target.value)
-        }
+        onChange={(e) => onCategoryChange(e.target.value)}
       >
         <option value="All categories">
           All categories
