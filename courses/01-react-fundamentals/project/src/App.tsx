@@ -1,13 +1,21 @@
-import './App.css'
-import { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import ChallengeList from './components/ChallengeList'
-import TaskList from './components/TaskList'
-import TaskApp from './components/TaskApp'
-import TaskDetailPage from './components/TaskDetailPage'
-import FetchDemoView from './components/FetchDemoView'
-import { ThemeProvider } from './contexts/ThemeContext'
-import type { Task } from './components/TaskList'
+import "./App.css";
+import { useEffect, useState } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import ChallengeList from "./components/ChallengeList";
+import TaskList from "./components/TaskList";
+import TaskApp from "./components/TaskApp";
+import TaskDetailPage from "./components/TaskDetailPage";
+import FetchDemoView from "./components/FetchDemoView";
+import {
+  ThemeProvider,
+  useTheme,
+} from "./contexts/ThemeContext";
+import ThemeToggle from "./components/ThemeToggle";
+import type { Task } from "./components/TaskList";
 
 const INITIAL_TASKS: Task[] = [
   { id: 1, title: 'First Task', description: 'Description one', priority: 'High', completed: false, category: 'General', tags: [] },
@@ -19,6 +27,7 @@ const INITIAL_TASKS: Task[] = [
 
 function AppContent() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS)
+  const { theme } = useTheme()
 
 useEffect(() => {
   try {
@@ -61,7 +70,12 @@ useEffect(() => {
 
   return (
     <BrowserRouter>
-      <div className="App">
+      <div
+        className="App"
+        data-theme={theme}
+      >
+        <ThemeToggle />
+
         <main>
           <Routes>
             <Route path="/" element={<ChallengeList />} />
