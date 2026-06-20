@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
 import FilterBar from "./FilterBar";
+import StatsPanel from "./StatsPanel";
 import type { Task } from "./TaskList";
 
 interface TaskAppProps {
@@ -12,6 +17,7 @@ interface TaskAppProps {
   showForm?: boolean;
   onDelete?: (id: string | number) => void;
   showFilterBar?: boolean;
+  showStatsPanel?: boolean;
 }
 
 export default function TaskApp({
@@ -20,6 +26,7 @@ export default function TaskApp({
   showForm,
   onDelete,
   showFilterBar,
+  showStatsPanel,
 }: TaskAppProps) {
   const [filter, setFilter] = useState<
     "all" | "active" | "completed"
@@ -28,7 +35,6 @@ export default function TaskApp({
   const [sortOrder, setSortOrder] =
     useState("recent");
 
-  // Challenge 12
   const [selectedCategory, setSelectedCategory] =
     useState("All categories");
 
@@ -63,9 +69,7 @@ export default function TaskApp({
       setIsSearching(false);
     }, 300);
 
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [searchText]);
 
   function handleAddTask(task: Task) {
@@ -117,7 +121,6 @@ export default function TaskApp({
     setEditingId(null);
   }
 
-  // Status filter
   let filteredTasks =
     filter === "all"
       ? tasks
@@ -129,7 +132,6 @@ export default function TaskApp({
           (task) => task.completed
         );
 
-  // Category filter
   if (
     selectedCategory !==
     "All categories"
@@ -140,7 +142,6 @@ export default function TaskApp({
     );
   }
 
-  // Search filter
   filteredTasks = filteredTasks.filter(
     (task) =>
       task.title
@@ -164,7 +165,6 @@ export default function TaskApp({
     Low: 1,
   };
 
-  // Sorting
   const sortedTasks = [
     ...filteredTasks,
   ].sort((a, b) => {
@@ -190,19 +190,11 @@ export default function TaskApp({
         );
     }
 
-    // Challenge 13
     if (sortOrder === "due-date") {
-      if (!a.dueDate && !b.dueDate) {
+      if (!a.dueDate && !b.dueDate)
         return 0;
-      }
-
-      if (!a.dueDate) {
-        return 1;
-      }
-
-      if (!b.dueDate) {
-        return -1;
-      }
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
 
       return (
         new Date(a.dueDate).getTime() -
@@ -210,9 +202,42 @@ export default function TaskApp({
       );
     }
 
-    // recent
     return 0;
   });
+
+  const stats = useMemo(() => {
+    const total = tasks.length;
+
+    const completed = tasks.filter(
+      (task) => task.completed
+    ).length;
+
+    const active = total - completed;
+
+    const overdue = tasks.filter(
+      (task) =>
+        !task.completed &&
+        task.dueDate &&
+        new Date(
+          task.dueDate
+        ).getTime() < Date.now()
+    ).length;
+
+    const completedPercentage =
+      total === 0
+        ? 0
+        : Math.round(
+            (completed / total) * 100
+          );
+
+    return {
+      total,
+      completed,
+      active,
+      overdue,
+      completedPercentage,
+    };
+  }, [tasks]);
 
   return (
     <main>
@@ -238,6 +263,18 @@ export default function TaskApp({
           }
           onCategoryChange={
             setSelectedCategory
+          }
+        />
+      )}
+
+      {showStatsPanel && (
+        <StatsPanel
+          total={stats.total}
+          completed={stats.completed}
+          active={stats.active}
+          overdue={stats.overdue}
+          completedPercentage={
+            stats.completedPercentage
           }
         />
       )}
