@@ -6,13 +6,9 @@ interface TaskCardProps {
   description: string;
   priority: string;
   completed?: boolean;
-
   category?: string;
   tags?: string[];
-
-  // Challenge 13
   dueDate?: string | number;
-
   onToggle?: (id: string | number) => void;
   onDelete?: (id: string | number) => void;
 }
@@ -122,9 +118,7 @@ function TaskCard({
       {dueDate && (
         <p id="task-due-date">
           Due:{" "}
-          {new Date(
-            dueDate
-          ).toLocaleDateString()}
+          {new Date(dueDate).toLocaleDateString()}
         </p>
       )}
 
@@ -149,12 +143,11 @@ function TaskCard({
       {onDelete && (
         <button
           onClick={() => {
-            const confirmed =
+            if (
               window.confirm(
                 "Are you sure?"
-              );
-
-            if (confirmed) {
+              )
+            ) {
               onDelete(id!);
             }
           }}

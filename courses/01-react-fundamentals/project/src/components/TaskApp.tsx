@@ -8,6 +8,7 @@ import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
 import FilterBar from "./FilterBar";
 import StatsPanel from "./StatsPanel";
+import ErrorBoundary from "./ErrorBoundary";
 import type { Task } from "./TaskList";
 
 import {
@@ -132,16 +133,16 @@ export default function TaskApp({
     [dispatch]
   );
 
-  const priorityValue: Record<
-    string,
-    number
-  > = {
-    High: 3,
-    Medium: 2,
-    Low: 1,
-  };
-
   const sortedTasks = useMemo(() => {
+    const priorityValue: Record<
+      string,
+      number
+    > = {
+      High: 3,
+      Medium: 2,
+      Low: 1,
+    };
+
     let filteredTasks =
       filter === "all"
         ? tasks
@@ -159,8 +160,7 @@ export default function TaskApp({
     ) {
       filteredTasks = filteredTasks.filter(
         (task) =>
-          task.category ===
-          selectedCategory
+          task.category === selectedCategory
       );
     }
 
@@ -321,20 +321,22 @@ export default function TaskApp({
         {tasks.length} tasks
       </div>
 
-      {sortedTasks.length === 0 ? (
-        <div id="filter-empty-message">
-          No tasks found
-        </div>
-      ) : (
-        <TaskList
-          tasks={sortedTasks}
-          onToggle={handleToggle}
-          onDelete={onDelete}
-          onUpdateTask={handleUpdateTask}
-          editingId={editingId}
-          setEditingId={setEditingId}
-        />
-      )}
+      <ErrorBoundary>
+        {sortedTasks.length === 0 ? (
+          <div id="filter-empty-message">
+            No tasks found
+          </div>
+        ) : (
+          <TaskList
+            tasks={sortedTasks}
+            onToggle={handleToggle}
+            onDelete={onDelete}
+            onUpdateTask={handleUpdateTask}
+            editingId={editingId}
+            setEditingId={setEditingId}
+          />
+        )}
+      </ErrorBoundary>
     </main>
   );
 }

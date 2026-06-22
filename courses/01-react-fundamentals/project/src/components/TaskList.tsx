@@ -28,6 +28,7 @@ interface TaskListProps {
   ) => void;
 
   editingId?: string | number | null;
+
   setEditingId?: (
     id: string | number | null
   ) => void;
@@ -68,6 +69,10 @@ export default function TaskList({
   countText,
   onToggle,
   onDelete,
+  linkToTaskDetail: _linkToTaskDetail,
+  onUpdateTask: _onUpdateTask,
+  editingId: _editingId,
+  setEditingId: _setEditingId,
 }: TaskListProps) {
   return (
     <>
