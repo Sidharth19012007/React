@@ -2,6 +2,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useCallback,
 } from "react";
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
@@ -79,84 +80,56 @@ export default function TaskApp({
     return () => clearTimeout(timer);
   }, [searchText]);
 
-  function handleAddTask(task: Task) {
-    if (!dispatch) return;
+  const handleAddTask = useCallback(
+    (task: Task) => {
+      if (!dispatch) return;
 
-    dispatch({
-      type: ADD_TASK,
-      payload: task,
-    });
-  }
+      dispatch({
+        type: ADD_TASK,
+        payload: task,
+      });
+    },
+    [dispatch]
+  );
 
-  function handleToggle(
-    id: string | number
-  ) {
-    if (!dispatch) return;
+  const handleToggle = useCallback(
+    (id: string | number) => {
+      if (!dispatch) return;
 
-    dispatch({
-      type: TOGGLE_TASK,
-      payload: id,
-    });
-  }
+      dispatch({
+        type: TOGGLE_TASK,
+        payload: id,
+      });
+    },
+    [dispatch]
+  );
 
-  function handleUpdateTask(
-    id: string | number,
-    updates: {
-      title: string;
-      description: string;
-      priority: string;
-    }
-  ) {
-    if (!dispatch) return;
+  const handleUpdateTask = useCallback(
+    (
+      id: string | number,
+      updates: {
+        title: string;
+        description: string;
+        priority: string;
+      }
+    ) => {
+      if (!dispatch) return;
 
-    if (!updates.title.trim()) {
-      return;
-    }
+      if (!updates.title.trim()) {
+        return;
+      }
 
-    dispatch({
-      type: UPDATE_TASK,
-      payload: {
-        id,
-        ...updates,
-      },
-    });
+      dispatch({
+        type: UPDATE_TASK,
+        payload: {
+          id,
+          ...updates,
+        },
+      });
 
-    setEditingId(null);
-  }
-
-  let filteredTasks =
-    filter === "all"
-      ? tasks
-      : filter === "active"
-      ? tasks.filter(
-          (task) => !task.completed
-        )
-      : tasks.filter(
-          (task) => task.completed
-        );
-
-  if (
-    selectedCategory !==
-    "All categories"
-  ) {
-    filteredTasks = filteredTasks.filter(
-      (task) =>
-        task.category === selectedCategory
-    );
-  }
-
-  filteredTasks = filteredTasks.filter(
-    (task) =>
-      task.title
-        .toLowerCase()
-        .includes(
-          debouncedSearchText.toLowerCase()
-        ) ||
-      task.description
-        .toLowerCase()
-        .includes(
-          debouncedSearchText.toLowerCase()
-        )
+      setEditingId(null);
+    },
+    [dispatch]
   );
 
   const priorityValue: Record<
@@ -168,47 +141,98 @@ export default function TaskApp({
     Low: 1,
   };
 
-  const sortedTasks = [
-    ...filteredTasks,
-  ].sort((a, b) => {
-    if (sortOrder === "high") {
-      return (
-        priorityValue[b.priority] -
-        priorityValue[a.priority]
+  const sortedTasks = useMemo(() => {
+    let filteredTasks =
+      filter === "all"
+        ? tasks
+        : filter === "active"
+        ? tasks.filter(
+            (task) => !task.completed
+          )
+        : tasks.filter(
+            (task) => task.completed
+          );
+
+    if (
+      selectedCategory !==
+      "All categories"
+    ) {
+      filteredTasks = filteredTasks.filter(
+        (task) =>
+          task.category ===
+          selectedCategory
       );
     }
 
-    if (sortOrder === "low") {
-      return (
-        priorityValue[a.priority] -
-        priorityValue[b.priority]
-      );
-    }
+    filteredTasks = filteredTasks.filter(
+      (task) =>
+        task.title
+          .toLowerCase()
+          .includes(
+            debouncedSearchText.toLowerCase()
+          ) ||
+        task.description
+          .toLowerCase()
+          .includes(
+            debouncedSearchText.toLowerCase()
+          )
+    );
 
-    if (sortOrder === "alphabetical") {
-      return a.title
-        .toLowerCase()
-        .localeCompare(
-          b.title.toLowerCase()
-        );
-    }
+    return [...filteredTasks].sort(
+      (a, b) => {
+        if (sortOrder === "high") {
+          return (
+            priorityValue[b.priority] -
+            priorityValue[a.priority]
+          );
+        }
 
-    if (sortOrder === "due-date") {
-      if (!a.dueDate && !b.dueDate)
+        if (sortOrder === "low") {
+          return (
+            priorityValue[a.priority] -
+            priorityValue[b.priority]
+          );
+        }
+
+        if (
+          sortOrder ===
+          "alphabetical"
+        ) {
+          return a.title
+            .toLowerCase()
+            .localeCompare(
+              b.title.toLowerCase()
+            );
+        }
+
+        if (sortOrder === "due-date") {
+          if (!a.dueDate && !b.dueDate)
+            return 0;
+
+          if (!a.dueDate) return 1;
+
+          if (!b.dueDate) return -1;
+
+          return (
+            new Date(
+              a.dueDate
+            ).getTime() -
+            new Date(
+              b.dueDate
+            ).getTime()
+          );
+        }
+
         return 0;
-
-      if (!a.dueDate) return 1;
-
-      if (!b.dueDate) return -1;
-
-      return (
-        new Date(a.dueDate).getTime() -
-        new Date(b.dueDate).getTime()
-      );
-    }
-
-    return 0;
-  });
+      }
+    );
+  }, [
+    tasks,
+    filter,
+    selectedCategory,
+    debouncedSearchText,
+    sortOrder,
+  ]);
 
   const stats = useMemo(() => {
     const total = tasks.length;

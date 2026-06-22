@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface TaskCardProps {
   id?: string | number;
   title: string;
@@ -15,7 +17,7 @@ interface TaskCardProps {
   onDelete?: (id: string | number) => void;
 }
 
-export default function TaskCard({
+function TaskCard({
   id,
   title,
   description,
@@ -117,7 +119,6 @@ export default function TaskCard({
         ))}
       </div>
 
-      {/* Challenge 13 */}
       {dueDate && (
         <p id="task-due-date">
           Due:{" "}
@@ -164,3 +165,5 @@ export default function TaskCard({
     </article>
   );
 }
+
+export default memo(TaskCard);

@@ -1,5 +1,9 @@
 import "./App.css";
-import { useEffect, useReducer } from "react";
+import {
+  useEffect,
+  useReducer,
+  useCallback,
+} from "react";
 import {
   taskReducer,
   DELETE_TASK,
@@ -49,15 +53,15 @@ function AppContent() {
   }, [tasks, setStoredTasks]);
 
 
-  const handleDelete = (
-    id: string | number
-  ) => {
-    dispatch({
-      type: DELETE_TASK,
-      payload: id,
-    });
-  };
-    
+  const handleDelete = useCallback(
+    (id: string | number) => {
+      dispatch({
+        type: DELETE_TASK,
+        payload: id,
+      });
+    },
+    [dispatch]
+  );
 
   return (
     <BrowserRouter>
