@@ -9,20 +9,27 @@ import FilterBar from "./FilterBar";
 import StatsPanel from "./StatsPanel";
 import type { Task } from "./TaskList";
 
+import {
+  ADD_TASK,
+  UPDATE_TASK,
+  TOGGLE_TASK,
+  type TaskAction,
+} from "../reducers/taskReducer";
+
 interface TaskAppProps {
   tasks: Task[];
-  setTasks?: React.Dispatch<
-    React.SetStateAction<Task[]>
-  >;
+  dispatch?: React.Dispatch<TaskAction>;
   showForm?: boolean;
   onDelete?: (id: string | number) => void;
   showFilterBar?: boolean;
   showStatsPanel?: boolean;
+  countFormat?: string;
+  linkToTaskDetail?: boolean;
 }
 
 export default function TaskApp({
   tasks,
-  setTasks,
+  dispatch,
   showForm,
   onDelete,
   showFilterBar,
@@ -73,24 +80,23 @@ export default function TaskApp({
   }, [searchText]);
 
   function handleAddTask(task: Task) {
-    if (setTasks) {
-      setTasks((prev) => [...prev, task]);
-    }
+    if (!dispatch) return;
+
+    dispatch({
+      type: ADD_TASK,
+      payload: task,
+    });
   }
 
-  function handleToggle(id: string | number) {
-    if (!setTasks) return;
+  function handleToggle(
+    id: string | number
+  ) {
+    if (!dispatch) return;
 
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id
-          ? {
-              ...task,
-              completed: !task.completed,
-            }
-          : task
-      )
-    );
+    dispatch({
+      type: TOGGLE_TASK,
+      payload: id,
+    });
   }
 
   function handleUpdateTask(
@@ -101,22 +107,19 @@ export default function TaskApp({
       priority: string;
     }
   ) {
-    if (!setTasks) return;
+    if (!dispatch) return;
 
     if (!updates.title.trim()) {
       return;
     }
 
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id
-          ? {
-              ...task,
-              ...updates,
-            }
-          : task
-      )
-    );
+    dispatch({
+      type: UPDATE_TASK,
+      payload: {
+        id,
+        ...updates,
+      },
+    });
 
     setEditingId(null);
   }
@@ -193,7 +196,9 @@ export default function TaskApp({
     if (sortOrder === "due-date") {
       if (!a.dueDate && !b.dueDate)
         return 0;
+
       if (!a.dueDate) return 1;
+
       if (!b.dueDate) return -1;
 
       return (
