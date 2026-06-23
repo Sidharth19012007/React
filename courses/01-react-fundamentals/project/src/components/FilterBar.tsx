@@ -1,34 +1,45 @@
+import { useEffect, useRef } from "react";
+
 type Filter = "all" | "active" | "completed";
 
 interface FilterBarProps {
-  filter: Filter;
-  onFilterChange: (filter: Filter) => void;
+  filter?: Filter;
+  onFilterChange?: (filter: Filter) => void;
 
-  sortOrder: string;
-  onSortChange: (value: string) => void;
+  sortOrder?: string;
+  onSortChange?: (value: string) => void;
 
-  searchText: string;
-  onSearchChange: (value: string) => void;
-  onClearSearch: () => void;
+  searchText?: string;
+  searchQuery?: string;
 
-  // Challenge 12
-  categories: string[];
-  selectedCategory: string;
-  onCategoryChange: (value: string) => void;
+  onSearchChange?: (value: string) => void;
+  onClearSearch?: () => void;
+
+  categories?: string[];
+  selectedCategory?: string;
+  onCategoryChange?: (value: string) => void;
 }
 
 export default function FilterBar({
-  filter,
-  onFilterChange,
-  sortOrder,
-  onSortChange,
-  searchText,
-  onSearchChange,
-  onClearSearch,
-  categories,
-  selectedCategory,
-  onCategoryChange,
+  filter = "all",
+  onFilterChange = () => {},
+  sortOrder = "recent",
+  onSortChange = () => {},
+  searchText = "",
+  searchQuery = "",
+  onSearchChange = () => {},
+  onClearSearch = () => {},
+  categories = [],
+  selectedCategory = "All categories",
+  onCategoryChange = () => {},
 }: FilterBarProps) {
+  const searchInputRef =
+    useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    searchInputRef.current?.focus();
+  }, []);
+
   return (
     <div id="filter-bar">
       <button
@@ -47,7 +58,9 @@ export default function FilterBar({
 
       <button
         data-active={filter === "completed"}
-        onClick={() => onFilterChange("completed")}
+        onClick={() =>
+          onFilterChange("completed")
+        }
       >
         Completed
       </button>
@@ -55,7 +68,9 @@ export default function FilterBar({
       <select
         id="sort-order"
         value={sortOrder}
-        onChange={(e) => onSortChange(e.target.value)}
+        onChange={(e) =>
+          onSortChange(e.target.value)
+        }
       >
         <option value="recent">
           Recently Added
@@ -73,17 +88,17 @@ export default function FilterBar({
           Alphabetical
         </option>
 
-        {/* Challenge 13 */}
         <option value="due-date">
           Due Date (Soonest First)
         </option>
       </select>
 
-      {/* Category Filter */}
       <select
         id="category-filter"
         value={selectedCategory}
-        onChange={(e) => onCategoryChange(e.target.value)}
+        onChange={(e) =>
+          onCategoryChange(e.target.value)
+        }
       >
         <option value="All categories">
           All categories
@@ -100,16 +115,17 @@ export default function FilterBar({
       </select>
 
       <input
+        ref={searchInputRef}
         id="search-input"
         type="text"
         placeholder="Search tasks..."
-        value={searchText}
+        value={searchText || searchQuery}
         onChange={(e) =>
           onSearchChange(e.target.value)
         }
       />
 
-      {searchText && (
+      {(searchText || searchQuery) && (
         <button
           id="clear-search"
           onClick={onClearSearch}
