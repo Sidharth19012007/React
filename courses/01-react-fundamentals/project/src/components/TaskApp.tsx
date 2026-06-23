@@ -36,6 +36,7 @@ export default function TaskApp({
   onDelete,
   showFilterBar,
   showStatsPanel,
+  linkToTaskDetail = false,
 }: TaskAppProps) {
   const [filter, setFilter] = useState<
     "all" | "active" | "completed"
@@ -334,6 +335,9 @@ export default function TaskApp({
             onUpdateTask={handleUpdateTask}
             editingId={editingId}
             setEditingId={setEditingId}
+            linkToTaskDetail={
+              linkToTaskDetail
+            }
           />
         )}
       </ErrorBoundary>

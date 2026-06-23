@@ -458,5 +458,44 @@
       "maintainability": 90,
       "overall": "The code is well-structured and follows best practices for React and TypeScript development. However, there are a few areas that could be improved to make the code more robust and efficient."
     }
+  },
+  {
+    "challengeId": "21-react-router",
+    "challengeName": "React Router - Routing and Navigation",
+    "aiReview": {
+      "challengeId": "21-react-router",
+      "timestamp": "2026-06-23T04:41:19.354Z",
+      "score": 0,
+      "feedback": [],
+      "strengths": [],
+      "improvements": [],
+      "readability": 0,
+      "maintainability": 0,
+      "overall": "",
+      "error": "Groq API error (413): Request too large for model `llama-3.1-8b-instant` in organization `org_01kt9g7k42fkebwhhw3adj1r5p` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 6070, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing"
+    }
+  },
+  {
+    "challengeId": "22-data-fetching",
+    "challengeName": "Data Fetching - Loading and Error State",
+    "aiReview": {
+      "challengeId": "22-data-fetching",
+      "timestamp": "2026-06-23T04:42:10.800Z",
+      "score": 88,
+      "feedback": [],
+      "strengths": [
+        "The code is well-structured and easy to follow, with clear and concise variable names and function definitions.",
+        "The use of TypeScript and functional components is well-implemented, making the code more maintainable and efficient.",
+        "The code includes proper error handling and cleanup using AbortController, ensuring a smooth user experience."
+      ],
+      "improvements": [
+        "Consider adding more comments to explain the purpose of each section of code, especially in the useEffect hook where the logic is complex.",
+        "The error handling could be improved by providing more specific error messages to help with debugging and troubleshooting.",
+        "Consider adding a loading animation or a more visually appealing loading indicator to improve the user experience during the loading state."
+      ],
+      "readability": 85,
+      "maintainability": 90,
+      "overall": "The code is well-written and demonstrates a good understanding of React, TypeScript, and functional programming principles. With a few minor improvements, it can be even more maintainable, efficient, and user-friendly."
+    }
   }
 ]

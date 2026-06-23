@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 interface TaskCardProps {
   id?: string | number;
@@ -9,8 +10,11 @@ interface TaskCardProps {
   category?: string;
   tags?: string[];
   dueDate?: string | number;
+
   onToggle?: (id: string | number) => void;
   onDelete?: (id: string | number) => void;
+
+  linkToTaskDetail?: boolean;
 }
 
 function TaskCard({
@@ -24,6 +28,7 @@ function TaskCard({
   dueDate,
   onToggle,
   onDelete,
+  linkToTaskDetail = false,
 }: TaskCardProps) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -77,7 +82,15 @@ function TaskCard({
             : "none",
         }}
       >
-        {title}
+        {linkToTaskDetail ? (
+          <Link
+            to={`/challenge/21-react-router/task/${id}`}
+          >
+            {title}
+          </Link>
+        ) : (
+          title
+        )}
       </h2>
 
       <p
@@ -118,7 +131,9 @@ function TaskCard({
       {dueDate && (
         <p id="task-due-date">
           Due:{" "}
-          {new Date(dueDate).toLocaleDateString()}
+          {new Date(
+            dueDate
+          ).toLocaleDateString()}
         </p>
       )}
 

@@ -69,11 +69,8 @@ export default function TaskList({
   countText,
   onToggle,
   onDelete,
-  linkToTaskDetail: _linkToTaskDetail,
-  onUpdateTask: _onUpdateTask,
-  editingId: _editingId,
-  setEditingId: _setEditingId,
-}: TaskListProps) {
+  linkToTaskDetail = false,
+}: TaskListProps)  {
   return (
     <>
       {countText && (
@@ -96,6 +93,9 @@ export default function TaskList({
             dueDate={task.dueDate}
             onToggle={onToggle}
             onDelete={onDelete}
+            linkToTaskDetail={
+              linkToTaskDetail
+            }
           />
         ))}
       </section>
