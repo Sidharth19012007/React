@@ -9235,17 +9235,17 @@
   {
     "challengeId": "21-react-router",
     "challengeName": "React Router - Routing and Navigation",
-    "timestamp": "2026-06-23T04:41:00.729Z",
+    "timestamp": "2026-06-24T06:15:06.265Z",
     "scores": {
       "functionalTests": 100,
       "codeQuality": 100,
       "architecture": 100,
       "bestPractices": 100,
       "e2eTests": 0,
-      "aiReview": 0
+      "aiReview": 88
     },
-    "totalScore": 70,
-    "passed": false,
+    "totalScore": 83.2,
+    "passed": true,
     "errors": [],
     "warnings": [],
     "testResults": {
@@ -9265,7 +9265,7 @@
               "fullName": " Challenge 21: React Router - Routing and Navigation TaskDetailPage should use useParams and render task detail or not found",
               "status": "passed",
               "title": "TaskDetailPage should use useParams and render task detail or not found",
-              "duration": 16,
+              "duration": 13,
               "failureMessages": []
             },
             {
@@ -9280,8 +9280,8 @@
               "failureMessages": []
             }
           ],
-          "startTime": 1782189664752,
-          "endTime": 1782189664769,
+          "startTime": 1782281709657,
+          "endTime": 1782281709672,
           "status": "passed",
           "message": "",
           "name": "C:/Users/kgopa/OneDrive/Desktop/React/challenge-engine-react/courses/01-react-fundamentals/project/tests/challenge-21.test.tsx"
@@ -9492,7 +9492,7 @@
                           "workerIndex": 0,
                           "parallelIndex": 0,
                           "status": "failed",
-                          "duration": 1,
+                          "duration": 2,
                           "error": {
                             "message": "Error: browserType.launch: Executable doesn't exist at C:\\Users\\kgopa\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1208\\chrome-headless-shell-win64\\chrome-headless-shell.exe\n╔═════════════════════════════════════════════════════════════════════════╗\n║ Looks like Playwright Test or Playwright was just installed or updated. ║\n║ Please run the following command to download new browsers:              ║\n║                                                                         ║\n║     npx playwright install                                              ║\n║                                                                         ║\n║ <3 Playwright Team                                                      ║\n╚═════════════════════════════════════════════════════════════════════════╝",
                             "stack": "Error: browserType.launch: Executable doesn't exist at C:\\Users\\kgopa\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1208\\chrome-headless-shell-win64\\chrome-headless-shell.exe\n╔═════════════════════════════════════════════════════════════════════════╗\n║ Looks like Playwright Test or Playwright was just installed or updated. ║\n║ Please run the following command to download new browsers:              ║\n║                                                                         ║\n║     npx playwright install                                              ║\n║                                                                         ║\n║ <3 Playwright Team                                                      ║\n╚═════════════════════════════════════════════════════════════════════════╝"
@@ -9505,7 +9505,7 @@
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2026-06-23T04:41:12.048Z",
+                          "startTime": "2026-06-24T06:15:16.729Z",
                           "annotations": [],
                           "attachments": []
                         },
@@ -9526,7 +9526,7 @@
                           "stdout": [],
                           "stderr": [],
                           "retry": 1,
-                          "startTime": "2026-06-23T04:41:12.914Z",
+                          "startTime": "2026-06-24T06:15:17.633Z",
                           "annotations": [],
                           "attachments": [
                             {
@@ -9553,7 +9553,7 @@
                           "stdout": [],
                           "stderr": [],
                           "retry": 2,
-                          "startTime": "2026-06-23T04:41:13.774Z",
+                          "startTime": "2026-06-24T06:15:18.497Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -9595,7 +9595,7 @@
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2026-06-23T04:41:14.634Z",
+                          "startTime": "2026-06-24T06:15:19.363Z",
                           "annotations": [],
                           "attachments": []
                         },
@@ -9616,7 +9616,7 @@
                           "stdout": [],
                           "stderr": [],
                           "retry": 1,
-                          "startTime": "2026-06-23T04:41:15.481Z",
+                          "startTime": "2026-06-24T06:15:20.241Z",
                           "annotations": [],
                           "attachments": [
                             {
@@ -9643,7 +9643,7 @@
                           "stdout": [],
                           "stderr": [],
                           "retry": 2,
-                          "startTime": "2026-06-23T04:41:16.330Z",
+                          "startTime": "2026-06-24T06:15:21.107Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -9672,7 +9672,7 @@
                           "workerIndex": 6,
                           "parallelIndex": 0,
                           "status": "failed",
-                          "duration": 1,
+                          "duration": 3,
                           "error": {
                             "message": "Error: browserType.launch: Executable doesn't exist at C:\\Users\\kgopa\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1208\\chrome-headless-shell-win64\\chrome-headless-shell.exe\n╔═════════════════════════════════════════════════════════════════════════╗\n║ Looks like Playwright Test or Playwright was just installed or updated. ║\n║ Please run the following command to download new browsers:              ║\n║                                                                         ║\n║     npx playwright install                                              ║\n║                                                                         ║\n║ <3 Playwright Team                                                      ║\n╚═════════════════════════════════════════════════════════════════════════╝",
                             "stack": "Error: browserType.launch: Executable doesn't exist at C:\\Users\\kgopa\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1208\\chrome-headless-shell-win64\\chrome-headless-shell.exe\n╔═════════════════════════════════════════════════════════════════════════╗\n║ Looks like Playwright Test or Playwright was just installed or updated. ║\n║ Please run the following command to download new browsers:              ║\n║                                                                         ║\n║     npx playwright install                                              ║\n║                                                                         ║\n║ <3 Playwright Team                                                      ║\n╚═════════════════════════════════════════════════════════════════════════╝"
@@ -9685,7 +9685,7 @@
                           "stdout": [],
                           "stderr": [],
                           "retry": 0,
-                          "startTime": "2026-06-23T04:41:17.179Z",
+                          "startTime": "2026-06-24T06:15:21.973Z",
                           "annotations": [],
                           "attachments": []
                         },
@@ -9706,7 +9706,7 @@
                           "stdout": [],
                           "stderr": [],
                           "retry": 1,
-                          "startTime": "2026-06-23T04:41:18.049Z",
+                          "startTime": "2026-06-24T06:15:22.863Z",
                           "annotations": [],
                           "attachments": [
                             {
@@ -9733,7 +9733,7 @@
                           "stdout": [],
                           "stderr": [],
                           "retry": 2,
-                          "startTime": "2026-06-23T04:41:18.926Z",
+                          "startTime": "2026-06-24T06:15:23.701Z",
                           "annotations": [],
                           "attachments": []
                         }
@@ -9756,27 +9756,41 @@
     },
     "aiReviewResults": {
       "challengeId": "21-react-router",
-      "timestamp": "2026-06-23T04:41:19.354Z",
-      "score": 0,
+      "timestamp": "2026-06-24T06:15:24.090Z",
+      "score": 88,
       "feedback": [],
-      "strengths": [],
-      "improvements": [],
-      "readability": 0,
-      "maintainability": 0,
-      "overall": "",
-      "error": "Groq API error (413): Request too large for model `llama-3.1-8b-instant` in organization `org_01kt9g7k42fkebwhhw3adj1r5p` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 6070, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing"
+      "strengths": [
+        "The code is well-structured and follows a consistent naming convention.",
+        "The use of TypeScript and React hooks is well-implemented and easy to follow.",
+        "The code is well-tested with a good set of unit tests."
+      ],
+      "improvements": [
+        "Some of the functions are quite long and could be broken down into smaller, more manageable functions.",
+        "There are some magic numbers and strings scattered throughout the code. Consider defining constants for these values.",
+        "The use of `window.confirm` in the `TaskCard` component could be replaced with a more robust solution, such as a custom confirmation dialog."
+      ],
+      "readability": 85,
+      "maintainability": 90,
+      "overall": "The code is well-written and follows good practices. However, there are some areas that could be improved to make the code even more maintainable and efficient."
     },
     "aiResults": {
       "challengeId": "21-react-router",
-      "timestamp": "2026-06-23T04:41:19.354Z",
-      "score": 0,
+      "timestamp": "2026-06-24T06:15:24.090Z",
+      "score": 88,
       "feedback": [],
-      "strengths": [],
-      "improvements": [],
-      "readability": 0,
-      "maintainability": 0,
-      "overall": "",
-      "error": "Groq API error (413): Request too large for model `llama-3.1-8b-instant` in organization `org_01kt9g7k42fkebwhhw3adj1r5p` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 6070, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing"
+      "strengths": [
+        "The code is well-structured and follows a consistent naming convention.",
+        "The use of TypeScript and React hooks is well-implemented and easy to follow.",
+        "The code is well-tested with a good set of unit tests."
+      ],
+      "improvements": [
+        "Some of the functions are quite long and could be broken down into smaller, more manageable functions.",
+        "There are some magic numbers and strings scattered throughout the code. Consider defining constants for these values.",
+        "The use of `window.confirm` in the `TaskCard` component could be replaced with a more robust solution, such as a custom confirmation dialog."
+      ],
+      "readability": 85,
+      "maintainability": 90,
+      "overall": "The code is well-written and follows good practices. However, there are some areas that could be improved to make the code even more maintainable and efficient."
     }
   },
   {

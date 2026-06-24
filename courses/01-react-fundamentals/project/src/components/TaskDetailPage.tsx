@@ -1,89 +1,40 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useLocalStorage } from "../hooks";
 import type { Task } from "./TaskList";
 
+const INITIAL_TASKS: Task[] = [];
+
 export default function TaskDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [tasks] = useLocalStorage<Task[]>("task-app-tasks", INITIAL_TASKS);
 
-  let tasks: Task[] = [];
-
-  try {
-    const savedTasks = localStorage.getItem(
-      "task-app-tasks"
-    );
-
-    if (savedTasks) {
-      tasks = JSON.parse(savedTasks) as Task[];
-    }
-  } catch {
-    tasks = [];
-  }
-
-  const task = tasks.find(
-    (t) => String(t.id) === String(id)
-  );
-
-  if (!task) {
-    return (
-      <div id="task-detail-page">
-        <h2>Task not found</h2>
-
-        <button
-          id="task-detail-back"
-          onClick={() =>
-            navigate(
-              "/challenge/21-react-router"
-            )
-          }
-        >
-          Back to list
-        </button>
-      </div>
-    );
-  }
+  const task = tasks.find((t) => String(t.id) === String(id));
 
   return (
     <div id="task-detail-page">
-      <h2>{task.title}</h2>
-
-      <p>{task.description}</p>
-
-      <p>
-        <strong>Priority:</strong>{" "}
-        {task.priority}
-      </p>
-
-      <p>
-        <strong>Category:</strong>{" "}
-        {task.category}
-      </p>
-
-      {task.tags.length > 0 && (
-        <div>
-          <strong>Tags:</strong>{" "}
-          {task.tags.join(", ")}
-        </div>
-      )}
-
-      {task.dueDate && (
-        <p>
-          <strong>Due Date:</strong>{" "}
-          {new Date(
-            task.dueDate
-          ).toLocaleDateString()}
-        </p>
-      )}
-
       <button
         id="task-detail-back"
-        onClick={() =>
-          navigate(
-            "/challenge/21-react-router"
-          )
-        }
+        onClick={() => navigate("/challenge/21-react-router")}
       >
         Back to list
       </button>
+
+      {task ? (
+        <div>
+          <h2>{task.title}</h2>
+          <p>{task.description}</p>
+          <p>Priority: {task.priority}</p>
+          <p>Status: {task.completed ? "Completed" : "Pending"}</p>
+          {task.category && <p>Category: {task.category}</p>}
+          {task.dueDate && <p>Due: {task.dueDate}</p>}
+          {task.tags && task.tags.length > 0 && (
+            <p>Tags: {task.tags.join(", ")}</p>
+          )}
+        </div>
+      ) : (
+        <p>Task not found.</p>
+      )}
     </div>
   );
 }

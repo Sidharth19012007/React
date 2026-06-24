@@ -460,22 +460,6 @@
     }
   },
   {
-    "challengeId": "21-react-router",
-    "challengeName": "React Router - Routing and Navigation",
-    "aiReview": {
-      "challengeId": "21-react-router",
-      "timestamp": "2026-06-23T04:41:19.354Z",
-      "score": 0,
-      "feedback": [],
-      "strengths": [],
-      "improvements": [],
-      "readability": 0,
-      "maintainability": 0,
-      "overall": "",
-      "error": "Groq API error (413): Request too large for model `llama-3.1-8b-instant` in organization `org_01kt9g7k42fkebwhhw3adj1r5p` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 6070, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing"
-    }
-  },
-  {
     "challengeId": "22-data-fetching",
     "challengeName": "Data Fetching - Loading and Error State",
     "aiReview": {
@@ -519,6 +503,29 @@
       "readability": 85,
       "maintainability": 90,
       "overall": "The code is well-structured and follows good practices, but there are some areas that can be improved for better readability and maintainability."
+    }
+  },
+  {
+    "challengeId": "21-react-router",
+    "challengeName": "React Router - Routing and Navigation",
+    "aiReview": {
+      "challengeId": "21-react-router",
+      "timestamp": "2026-06-24T06:15:24.090Z",
+      "score": 88,
+      "feedback": [],
+      "strengths": [
+        "The code is well-structured and follows a consistent naming convention.",
+        "The use of TypeScript and React hooks is well-implemented and easy to follow.",
+        "The code is well-tested with a good set of unit tests."
+      ],
+      "improvements": [
+        "Some of the functions are quite long and could be broken down into smaller, more manageable functions.",
+        "There are some magic numbers and strings scattered throughout the code. Consider defining constants for these values.",
+        "The use of `window.confirm` in the `TaskCard` component could be replaced with a more robust solution, such as a custom confirmation dialog."
+      ],
+      "readability": 85,
+      "maintainability": 90,
+      "overall": "The code is well-written and follows good practices. However, there are some areas that could be improved to make the code even more maintainable and efficient."
     }
   }
 ]
