@@ -1,13 +1,13 @@
 {
-  "lastUpdated": "2026-07-11T04:43:11.533Z",
+  "lastUpdated": "2026-07-11T10:15:00.631Z",
   "pathway": {
     "name": "Modern React Engineer",
     "version": "1.0.0",
     "overallScore": 54.3,
-    "completionPercentage": 52.8,
+    "completionPercentage": 54.7,
     "badgeLevel": "none",
     "totalChallenges": 53,
-    "completedChallenges": 28
+    "completedChallenges": 29
   },
   "courses": {
     "01-react-fundamentals": {
@@ -369,11 +369,11 @@
     "02-redux-rtk-query": {
       "courseId": "02-redux-rtk-query",
       "courseName": "Redux & RTK Query",
-      "averageScore": 81.9,
-      "completionPercentage": 38.5,
+      "averageScore": 81.8,
+      "completionPercentage": 46.2,
       "badgeLevel": "none",
       "totalChallenges": 13,
-      "completedChallenges": 5,
+      "completedChallenges": 6,
       "challenges": {
         "01-store-setup": {
           "challengeId": "01-store-setup",
@@ -444,6 +444,21 @@
           "scores": {
             "functionalTests": 100,
             "codeQuality": 100,
+            "architecture": 100,
+            "bestPractices": 100,
+            "e2eTests": 0,
+            "aiReview": 86
+          }
+        },
+        "06-rtk-query-setup": {
+          "challengeId": "06-rtk-query-setup",
+          "challengeName": "RTK Query Setup and API Slice",
+          "passed": true,
+          "score": 81.4,
+          "lastRun": "2026-07-11T10:14:29.451Z",
+          "scores": {
+            "functionalTests": 100,
+            "codeQuality": 90,
             "architecture": 100,
             "bestPractices": 100,
             "e2eTests": 0,
