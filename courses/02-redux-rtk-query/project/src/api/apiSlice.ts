@@ -12,45 +12,76 @@ export interface NewUser {
   email: string;
 }
 
+export interface Post {
+  id: number;
+  userId: string;
+  title: string;
+}
+
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
-  tagTypes: ['User'],
+  baseQuery: fetchBaseQuery({
+    baseUrl: '/',
+  }),
+  tagTypes: ['User', 'Post'],
   endpoints: (builder) => ({
     getUsers: builder.query<User[], void>({
       queryFn: async () => {
         try {
-          return { data: await mockApi.getUsers() };
-        } catch (e) {
-          return { error: { status: 'ERR', error: String(e) } };
+          const users = await mockApi.getUsers();
+          return { data: users };
+        } catch (error: unknown) {
+          return {
+            error: {
+              status: 'CUSTOM_ERROR',
+              error:
+                error instanceof Error
+                  ? error.message
+                  : 'Failed to fetch users',
+            },
+          };
         }
       },
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: 'User' as const, id })),
+              ...result.map(({ id }) => ({
+                type: 'User' as const,
+                id,
+              })),
               { type: 'User', id: 'LIST' },
             ]
           : [{ type: 'User', id: 'LIST' }],
     }),
+
     addUser: builder.mutation<User, NewUser>({
       queryFn: async (newUser) => {
         try {
-          return { data: await mockApi.addUser(newUser) };
-        } catch (e) {
-          return { error: { status: 'ERR', error: String(e) } };
+          const createdUser = await mockApi.addUser(newUser);
+          return { data: createdUser };
+        } catch (error: unknown) {
+          return {
+            error: {
+              status: 'CUSTOM_ERROR',
+              error:
+                error instanceof Error
+                  ? error.message
+                  : 'Failed to add user',
+            },
+          };
         }
       },
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
+
       async onQueryStarted(newUser, { dispatch, queryFulfilled }) {
+        const tempId = `temp-${Date.now()}`;
+
         const patchResult = dispatch(
           apiSlice.util.updateQueryData('getUsers', undefined, (draft) => {
-            draft.push({
-              id: String(Date.now()),
-              ...newUser,
-            });
-          })
+            draft.push({ id: tempId, ...newUser });
+          }),
         );
+
         try {
           await queryFulfilled;
         } catch {
@@ -58,7 +89,38 @@ export const apiSlice = createApi({
         }
       },
     }),
+
+    getPosts: builder.query<Post[], void>({
+      queryFn: async () => {
+        try {
+          const users = await mockApi.getUsers();
+          const posts: Post[] = users.map((u, idx) => ({
+            id: idx + 1,
+            userId: u.id,
+            title: `${u.name}'s first post`,
+          }));
+          return { data: posts };
+        } catch (error: unknown) {
+          return {
+            error: {
+              status: 'CUSTOM_ERROR',
+              error:
+                error instanceof Error
+                  ? error.message
+                  : 'Failed to fetch posts',
+            },
+          };
+        }
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'Post' as const, id })),
+              { type: 'Post', id: 'LIST' },
+            ]
+          : [{ type: 'Post', id: 'LIST' }],
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useAddUserMutation } = apiSlice;
+export const { useGetUsersQuery, useAddUserMutation, useGetPostsQuery } = apiSlice;

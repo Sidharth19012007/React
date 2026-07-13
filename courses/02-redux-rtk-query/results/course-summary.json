@@ -1,11 +1,11 @@
 {
   "courseId": "02-redux-rtk-query",
   "courseName": "Redux & RTK Query",
-  "lastUpdated": "2026-07-13T05:16:46.941Z",
+  "lastUpdated": "2026-07-13T06:15:23.084Z",
   "totalChallenges": 13,
-  "completedChallenges": 10,
-  "averageScore": 82.1,
-  "completionPercentage": 76.9,
+  "completedChallenges": 11,
+  "averageScore": 82,
+  "completionPercentage": 84.6,
   "badgeLevel": "silver",
   "challengeResults": [
     {
@@ -67,6 +67,12 @@
       "challengeName": "Optimistic Updates",
       "score": 83.35,
       "passed": true
+    },
+    {
+      "challengeId": "11-api-local-state",
+      "challengeName": "API and Local State Together",
+      "score": 80.4,
+      "passed": true
     }
   ],
   "skillStrengths": [
@@ -79,7 +85,8 @@
     "Query Endpoints and useQuery Hooks",
     "Caching and Cache Tags",
     "Mutations with useMutation",
-    "Optimistic Updates"
+    "Optimistic Updates",
+    "API and Local State Together"
   ],
   "improvementAreas": []
 }
