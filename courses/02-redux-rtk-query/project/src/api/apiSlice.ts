@@ -1,75 +1,72 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { mockApi } from './mockServer';
 
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-}
-
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
-  username?: string;
 }
 
-// Safely cast mockApi to an interface containing the dynamic extensions to satisfy ESLint
-interface ExtendedMockApi {
-  getUsers: () => Promise<User[]>;
-  getPosts: () => Promise<Post[]>;
-  addPost: (post: Partial<Post>) => Promise<Post>;
+export interface NewUser {
+  name: string;
+  email: string;
 }
-
-const typedMockApi = mockApi as unknown as ExtendedMockApi;
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
-  tagTypes: ['Post', 'User'],
+  baseQuery: fetchBaseQuery({
+    baseUrl: '/',
+  }),
+  tagTypes: ['User'],
   endpoints: (builder) => ({
     getUsers: builder.query<User[], void>({
       queryFn: async () => {
         try {
-          const data = await typedMockApi.getUsers();
-          return { data };
+          const users = await mockApi.getUsers();
+          return { data: users };
         } catch (error: unknown) {
-          const message = error instanceof Error ? error.message : 'Unknown error occurred';
-          return { error: { status: 'CUSTOM_ERROR', error: message } };
-        }
-      },
-    }),
-    getPosts: builder.query<Post[], void>({
-      queryFn: async () => {
-        try {
-          const data = await typedMockApi.getPosts();
-          return { data };
-        } catch (error: unknown) {
-          const message = error instanceof Error ? error.message : 'Unknown error occurred';
-          return { error: { status: 'CUSTOM_ERROR', error: message } };
+          return {
+            error: {
+              status: 'CUSTOM_ERROR',
+              error:
+                error instanceof Error
+                  ? error.message
+                  : 'Failed to fetch users',
+            },
+          };
         }
       },
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: 'Post' as const, id })),
-              { type: 'Post' as const, id: 'LIST' },
+              ...result.map(({ id }) => ({
+                type: 'User' as const,
+                id,
+              })),
+              { type: 'User', id: 'LIST' },
             ]
-          : [{ type: 'Post' as const, id: 'LIST' }],
+          : [{ type: 'User', id: 'LIST' }],
     }),
-    addPost: builder.mutation<Post, Partial<Post>>({
-      queryFn: async (newPost) => {
+    addUser: builder.mutation<User, NewUser>({
+      queryFn: async (newUser) => {
         try {
-          const data = await typedMockApi.addPost(newPost);
-          return { data };
+          const createdUser = await mockApi.addUser(newUser);
+          return { data: createdUser };
         } catch (error: unknown) {
-          const message = error instanceof Error ? error.message : 'Unknown error occurred';
-          return { error: { status: 'CUSTOM_ERROR', error: message } };
+          return {
+            error: {
+              status: 'CUSTOM_ERROR',
+              error:
+                error instanceof Error
+                  ? error.message
+                  : 'Failed to add user',
+            },
+          };
         }
       },
-      invalidatesTags: [{ type: 'Post' as const, id: 'LIST' }],
+      invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
   }),
 });
 
-export const { useGetUsersQuery, useGetPostsQuery, useAddPostMutation } = apiSlice;
+export const { useGetUsersQuery, useAddUserMutation } = apiSlice;
