@@ -14,35 +14,21 @@ export interface NewUser {
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: '/',
-  }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
   tagTypes: ['User'],
   endpoints: (builder) => ({
     getUsers: builder.query<User[], void>({
       queryFn: async () => {
         try {
-          const users = await mockApi.getUsers();
-          return { data: users };
-        } catch (error: unknown) {
-          return {
-            error: {
-              status: 'CUSTOM_ERROR',
-              error:
-                error instanceof Error
-                  ? error.message
-                  : 'Failed to fetch users',
-            },
-          };
+          return { data: await mockApi.getUsers() };
+        } catch (e) {
+          return { error: { status: 'ERR', error: String(e) } };
         }
       },
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({
-                type: 'User' as const,
-                id,
-              })),
+              ...result.map(({ id }) => ({ type: 'User' as const, id })),
               { type: 'User', id: 'LIST' },
             ]
           : [{ type: 'User', id: 'LIST' }],
@@ -50,21 +36,27 @@ export const apiSlice = createApi({
     addUser: builder.mutation<User, NewUser>({
       queryFn: async (newUser) => {
         try {
-          const createdUser = await mockApi.addUser(newUser);
-          return { data: createdUser };
-        } catch (error: unknown) {
-          return {
-            error: {
-              status: 'CUSTOM_ERROR',
-              error:
-                error instanceof Error
-                  ? error.message
-                  : 'Failed to add user',
-            },
-          };
+          return { data: await mockApi.addUser(newUser) };
+        } catch (e) {
+          return { error: { status: 'ERR', error: String(e) } };
         }
       },
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
+      async onQueryStarted(newUser, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          apiSlice.util.updateQueryData('getUsers', undefined, (draft) => {
+            draft.push({
+              id: String(Date.now()),
+              ...newUser,
+            });
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
   }),
 });
