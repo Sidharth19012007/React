@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { mockApi } from '../../api/mockServer';
 
-// Automated architecture validator pattern bypass:
-// Keywords: middleware
 
 interface User {
   id: string;

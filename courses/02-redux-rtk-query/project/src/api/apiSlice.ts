@@ -1,126 +1,63 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { mockApi } from './mockServer';
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
-export interface NewUser {
-  name: string;
-  email: string;
-}
-
-export interface Post {
-  id: number;
-  userId: string;
-  title: string;
-}
+import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
+import { mockApi } from "./mockApi";
+import type { Post } from "../types";
 
 export const apiSlice = createApi({
-  reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: '/',
-  }),
-  tagTypes: ['User', 'Post'],
+  reducerPath: "api",
+  baseQuery: fakeBaseQuery(),
+  tagTypes: ["Post"],
+
   endpoints: (builder) => ({
-    getUsers: builder.query<User[], void>({
-      queryFn: async () => {
-        try {
-          const users = await mockApi.getUsers();
-          return { data: users };
-        } catch (error: unknown) {
-          return {
-            error: {
-              status: 'CUSTOM_ERROR',
-              error:
-                error instanceof Error
-                  ? error.message
-                  : 'Failed to fetch users',
-            },
-          };
-        }
-      },
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({
-                type: 'User' as const,
-                id,
-              })),
-              { type: 'User', id: 'LIST' },
-            ]
-          : [{ type: 'User', id: 'LIST' }],
-    }),
-
-    addUser: builder.mutation<User, NewUser>({
-      queryFn: async (newUser) => {
-        try {
-          const createdUser = await mockApi.addUser(newUser);
-          return { data: createdUser };
-        } catch (error: unknown) {
-          return {
-            error: {
-              status: 'CUSTOM_ERROR',
-              error:
-                error instanceof Error
-                  ? error.message
-                  : 'Failed to add user',
-            },
-          };
-        }
-      },
-      invalidatesTags: [{ type: 'User', id: 'LIST' }],
-
-      async onQueryStarted(newUser, { dispatch, queryFulfilled }) {
-        const tempId = `temp-${Date.now()}`;
-
-        const patchResult = dispatch(
-          apiSlice.util.updateQueryData('getUsers', undefined, (draft) => {
-            draft.push({ id: tempId, ...newUser });
-          }),
-        );
-
-        try {
-          await queryFulfilled;
-        } catch {
-          patchResult.undo();
-        }
-      },
-    }),
-
     getPosts: builder.query<Post[], void>({
       queryFn: async () => {
         try {
-          const users = await mockApi.getUsers();
-          const posts: Post[] = users.map((u, idx) => ({
-            id: idx + 1,
-            userId: u.id,
-            title: `${u.name}'s first post`,
-          }));
-          return { data: posts };
-        } catch (error: unknown) {
+          const posts = await mockApi.getPosts();
+
           return {
-            error: {
-              status: 'CUSTOM_ERROR',
-              error:
-                error instanceof Error
-                  ? error.message
-                  : 'Failed to fetch posts',
-            },
+            data: posts,
+          };
+        } catch (error) {
+          return {
+            error: error as Error,
           };
         }
       },
+
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: 'Post' as const, id })),
-              { type: 'Post', id: 'LIST' },
+              ...result.map((post) => ({
+                type: "Post" as const,
+                id: post.id,
+              })),
+              { type: "Post", id: "LIST" },
             ]
-          : [{ type: 'Post', id: 'LIST' }],
+          : [{ type: "Post", id: "LIST" }],
+    }),
+
+    getPostById: builder.query<Post, number>({
+      queryFn: async (id) => {
+        try {
+          const post = await mockApi.getPostById(id);
+
+          return {
+            data: post,
+          };
+        } catch (error) {
+          return {
+            error: error as Error,
+          };
+        }
+      },
+
+      providesTags: (result, error, id) => [
+        { type: "Post", id },
+      ],
     }),
   }),
 });
 
-export const { useGetUsersQuery, useAddUserMutation, useGetPostsQuery } = apiSlice;
+export const {
+  useGetPostsQuery,
+  useGetPostByIdQuery,
+} = apiSlice;

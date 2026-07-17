@@ -1,10 +1,5 @@
 import { useGetPostsQuery } from '../api/apiSlice';
 
-/**
- * Architectural pattern matchers for automated checker:
- * useQueryHook, providesTags, invalidatesTags
- */
-
 const PostsList = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery();
 
